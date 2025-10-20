@@ -15,8 +15,8 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
-            <Button x:Name="btnProcess" Content="Обработать данные" Width="120" Height="30"/>
-            <Button x:Name="btnAddEmployee" Content="Добавить сотрудника"  Width="120" Height="30" Margin="10,0,0,0"/>
+            <Button x:Name="btnProcess" Content="Обработать данные" Click="BtnProcess_Click" Width="120" Height="30"/>
+            <Button x:Name="btnAddEmployee" Content="Добавить сотрудника" Click="BtnAddEmployee_Click" Width="120" Height="30" Margin="10,0,0,0"/>
             <ComboBox x:Name="cmbSourceFile" Width="120" Margin="10,0,0,0" SelectedIndex="0">
                 <ComboBoxItem Content="Data1.xml"/>
                 <ComboBoxItem Content="Data2.xml"/>
