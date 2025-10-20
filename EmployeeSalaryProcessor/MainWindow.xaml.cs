@@ -97,40 +97,61 @@ namespace EmployeeSalaryProcessor
                     string amountStr = salary.Attribute("amount")?.Value;
                     if (!string.IsNullOrEmpty(amountStr))
                     {
-                        // Заменяем запятую на точку для корректного парсинга
-                        amountStr = amountStr.Replace(",", ".");
-                        if (decimal.TryParse(amountStr, out decimal amount))
-                        {
-                            totalSalary += amount;
-                        }
+                        // Улучшенный парсинг чисел
+                        decimal amount = ParseDecimal(amountStr);
+                        totalSalary += amount;
                     }
                 }
-
                 employee.SetAttributeValue("totalSalary", totalSalary.ToString("F2"));
             }
-
             return doc.ToString();
+        }
+
+        //Метод для корректного парсинга десятичных чисел
+        private decimal ParseDecimal(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return 0;
+
+            // Заменяем запятую на точку для корректного парсинга
+            string normalizedValue = value.Replace(",", ".");
+
+            // Удаляем лишние пробелы
+            normalizedValue = normalizedValue.Trim();
+
+            // Пытаемся распарсить число
+            if (decimal.TryParse(normalizedValue,
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out decimal result))
+            {
+                return result;
+            }
+
+            // Если не удалось, пытаемся с текущим
+            if (decimal.TryParse(normalizedValue, out result))
+            {
+                return result;
+            }
+
+            // Если все еще не удалось, возвращаем 0
+            return 0;
         }
 
         private void UpdateSourceFileWithTotals(string sourceFile)
         {
             XDocument doc = XDocument.Load(sourceFile);
-
             if (sourceFile == "Data1.xml")
             {
                 decimal totalAmount = 0;
                 var items = doc.Descendants("item");
-
                 foreach (var item in items)
                 {
                     string amountStr = item.Attribute("amount")?.Value;
                     if (!string.IsNullOrEmpty(amountStr))
                     {
-                        amountStr = amountStr.Replace(",", ".");
-                        if (decimal.TryParse(amountStr, out decimal amount))
-                        {
-                            totalAmount += amount;
-                        }
+                        decimal amount = ParseDecimal(amountStr);
+                        totalAmount += amount;
                     }
                 }
 
@@ -152,18 +173,13 @@ namespace EmployeeSalaryProcessor
                         string amountStr = item.Attribute("amount")?.Value;
                         if (!string.IsNullOrEmpty(amountStr))
                         {
-                            amountStr = amountStr.Replace(",", ".");
-                            if (decimal.TryParse(amountStr, out decimal amount))
-                            {
-                                monthTotal += amount;
-                            }
+                            decimal amount = ParseDecimal(amountStr);
+                            monthTotal += amount;
                         }
                     }
-
                     monthElement.SetAttributeValue("totalAmount", monthTotal.ToString("F2"));
                 }
             }
-
             doc.Save(sourceFile);
         }
 
@@ -181,29 +197,34 @@ namespace EmployeeSalaryProcessor
                     TotalSalary = employee.Attribute("totalSalary")?.Value
                 };
 
-                // Заполняем данные по месяцам
+                // Заполняем данные по месяцам с форматированием
                 foreach (XElement salary in employee.Descendants("salary"))
                 {
                     string mount = salary.Attribute("mount")?.Value;
                     string amount = salary.Attribute("amount")?.Value;
 
-                    switch (mount?.ToLower())
+                    // Форматируем число для красивого отображения
+                    if (!string.IsNullOrEmpty(amount))
                     {
-                        case "january":
-                            display.January = amount;
-                            break;
-                        case "february":
-                            display.February = amount;
-                            break;
-                        case "march":
-                            display.March = amount;
-                            break;
+                        decimal parsedAmount = ParseDecimal(amount);
+                        string formattedAmount = parsedAmount.ToString("F2");
+
+                        switch (mount?.ToLower())
+                        {
+                            case "january":
+                                display.January = formattedAmount;
+                                break;
+                            case "february":
+                                display.February = formattedAmount;
+                                break;
+                            case "march":
+                                display.March = formattedAmount;
+                                break;
+                        }
                     }
                 }
-
                 employees.Add(display);
             }
-
             dgEmployees.ItemsSource = employees;
         }
 

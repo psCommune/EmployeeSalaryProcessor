@@ -3,6 +3,12 @@
 				xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
     <xsl:output method="xml" indent="yes"/>
 
+	<!-- Функция для нормализации чисел (замена запятой на точку) -->
+	<xsl:template name="normalize-number">
+		<xsl:param name="number-string"/>
+		<xsl:value-of select="translate($number-string, ',', '.')"/>
+	</xsl:template>
+
 	<!-- Шаблон для Data1.xml -->
 	<xsl:template match="/Pay[item]">
 		<Employees>
@@ -10,7 +16,6 @@
 			<xsl:for-each select="item[not(@name = preceding-sibling::item/@name) or not(@surname = preceding-sibling::item/@surname)]">
 				<xsl:variable name="currentName" select="@name"/>
 				<xsl:variable name="currentSurname" select="@surname"/>
-
 				<Employee name="{$currentName}" surname="{$currentSurname}">
 					<!-- Выбираем все элементы с таким же именем и фамилией -->
 					<xsl:for-each select="/Pay/item[@name = $currentName and @surname = $currentSurname]">
@@ -26,7 +31,6 @@
 		<Employees>
 			<!-- Собираем все уникальные комбинации имени и фамилии -->
 			<xsl:variable name="allItems" select="*/item"/>
-
 			<xsl:for-each select="$allItems[not(@name = preceding::item/@name) or not(@surname = preceding::item/@surname)]">
 				<xsl:variable name="currentName" select="@name"/>
 				<xsl:variable name="currentSurname" select="@surname"/>
