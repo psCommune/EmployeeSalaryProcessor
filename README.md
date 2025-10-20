@@ -14,7 +14,7 @@ WPF приложение для обработки и преобразовани
 ### Открытие решения в Visual Studio
 - Запустите Visual Studio 2022  
 - Откройте файл EmployeeSalaryProcessor.sln  
-- Поместите Data1.xml и Data2.xml в папку bin\Debug\net6.0\  
+- Поместите Data1.xml и Data2.xml в папку bin\Debug\net8.0-windows\  
 - Убедитесь, что TransformToEmployees.xslt находится в корне проекта
 ### Использование
 - Запустите приложение
