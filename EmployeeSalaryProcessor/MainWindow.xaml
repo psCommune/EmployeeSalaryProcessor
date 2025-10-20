@@ -5,8 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EmployeeSalaryProcessor"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="600" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button x:Name="btnProcess" Content="Обработать данные" Width="120" Height="30"/>
+            <Button x:Name="btnAddEmployee" Content="Добавить сотрудника"  Width="120" Height="30" Margin="10,0,0,0"/>
+            <ComboBox x:Name="cmbSourceFile" Width="120" Margin="10,0,0,0" SelectedIndex="0">
+                <ComboBoxItem Content="Data1.xml"/>
+                <ComboBoxItem Content="Data2.xml"/>
+            </ComboBox>
+        </StackPanel>
+
+        <TextBlock Grid.Row="1" Text="Список сотрудников и выплаты по месяцам:" FontWeight="Bold" Margin="0,0,0,5"/>
+
+        <DataGrid x:Name="dgEmployees" Grid.Row="2" AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Имя" Binding="{Binding Name}" Width="100"/>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding Surname}" Width="120"/>
+                <DataGridTextColumn Header="Январь" Binding="{Binding January}" Width="80"/>
+                <DataGridTextColumn Header="Февраль" Binding="{Binding February}" Width="80"/>
+                <DataGridTextColumn Header="Март" Binding="{Binding March}" Width="80"/>
+                <DataGridTextColumn Header="Общая сумма" Binding="{Binding TotalSalary}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StatusBar Grid.Row="3">
+            <StatusBarItem>
+                <TextBlock x:Name="tbStatus" Text="Готов к работе"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

@@ -1,0 +1,46 @@
+﻿<Window x:Class="EmployeeSalaryProcessor.AddEmployeeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EmployeeSalaryProcessor"
+        mc:Ignorable="d"
+        Title="AddEmployeeWindow" Height="400" Width="300"
+        WindowStartupLocation="CenterOwner">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Имя:" Margin="0,0,0,5"/>
+        <TextBox x:Name="txtName" Grid.Row="1" Margin="0,0,0,10"/>
+
+        <TextBlock Grid.Row="2" Text="Фамилия:" Margin="0,0,0,5"/>
+        <TextBox x:Name="txtSurname" Grid.Row="3" Margin="0,0,0,10"/>
+
+        <TextBlock Grid.Row="4" Text="Зарплата по месяцам:" FontWeight="Bold" Margin="0,0,0,5"/>
+
+        <StackPanel Grid.Row="5" Orientation="Vertical">
+            <TextBlock Text="Январь:" Margin="0,5,0,2"/>
+            <TextBox x:Name="txtJanuary"/>
+
+            <TextBlock Text="Февраль:" Margin="0,5,0,2"/>
+            <TextBox x:Name="txtFebruary"/>
+
+            <TextBlock Text="Март:" Margin="0,5,0,2"/>
+            <TextBox x:Name="txtMarch"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="7" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Добавить"  Width="80" Height="25" Margin="0,0,10,0"/>
+            <Button Content="Отмена" Width="80" Height="25"/>
+        </StackPanel>
+    </Grid>
+</Window>
